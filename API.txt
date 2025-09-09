@@ -1,0 +1,3 @@
+Authentication:
+    UserRegister : POST : /auth/register
+    Create Collection : POST : /collection/create
