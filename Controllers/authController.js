@@ -13,7 +13,7 @@ exports.userRegister = async (req, res) => {
         if (isLogin === true) {
             // --- LOGIN SECTION ---
             console.log("Login")
-            const adminArray = ["admin@raya.com", "admin@000"]
+            const adminArray = ["admin@littlemaker.com", "admin@000"]
             if (!email || !password) {
                 return res.status(201).json({ message: "Email and password are required" });
             }

@@ -30,6 +30,12 @@ const productSchema = new Schema({
     },
     Size : {
         type: String
+    },
+    flashSale: {
+        type: String
+    },
+    trending : {
+        type: String
     }
 });
 

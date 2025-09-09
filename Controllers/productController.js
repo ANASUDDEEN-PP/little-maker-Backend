@@ -6,7 +6,7 @@ const sendNotify = require("../utils/sendNotify");
 
 exports.createProduct = async (req, res) => {
   try {
-    const { productName, description, collection, normalPrice, offerPrice, quantity, material, size, images, actualPrice } = req.body;
+    const { productName, description, collection, normalPrice, offerPrice, quantity, material, size, images, actualPrice,isFlashSale, isTrending } = req.body;
 
     // Validation
     if (!productName || !collection || !normalPrice || !quantity) {
@@ -23,12 +23,12 @@ exports.createProduct = async (req, res) => {
     const productCount = await productModel.countDocuments();
 
     if (productCount === 0) {
-      productId = `RAYA/${year}/PRD/0001`;
+      productId = `TLM/${year}/PRD/0001`;
     } else {
       const lastPrd = await productModel.findOne().sort({ _id: -1 });
       const lastPrdId = lastPrd.ProductId?.split("/").pop();
       const nextId = String(parseInt(lastPrdId) + 1).padStart(4, '0');
-      productId = `RAYA/${year}/PRD/${nextId}`;
+      productId = `TLM/${year}/PRD/${nextId}`;
     }
 
     // Create Product
@@ -42,7 +42,9 @@ exports.createProduct = async (req, res) => {
       OfferPrice: offerPrice ? parseFloat(offerPrice) : null,
       Quantity: parseInt(quantity),
       Material: material || null,
-      Size: size || null
+      Size: size || null,
+      flashSale: isFlashSale,
+      trending: isTrending
     };
 
     const product = await productModel.create(productData);
