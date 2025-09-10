@@ -127,16 +127,31 @@ exports.getProductOrderedByCollection = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await productModel.find({});
-    return res.status(200).json({
-      products
-    })
+    const products = await productModel.aggregate([{ $sample: { size: 15 } }]);
+
+    const images = await imageModel.find({}).lean();
+
+    const allProducts = products.map(prd => {
+      const image = images.find(img => img.imageId === prd._id.toString());
+      return {
+        id: prd._id,
+        productName: prd.ProductName,
+        collection: prd.CollectionName,
+        normalPrice: prd.NormalPrice,
+        offerPrice: prd.OfferPrice,
+        rating: prd.rating,
+        image: image ? image.ImageUrl : null,
+      };
+    });
+
+    return res.status(200).json({ allProducts });
   } catch (err) {
-    return res.status(404).json({
+    console.error(err);
+    return res.status(500).json({
       message: "Internal Server Error"
-    })
+    });
   }
-}
+};
 
 exports.getProductById = async (req, res) => {
   try {
@@ -276,37 +291,37 @@ exports.getRandomSixProduct = async (req, res) => {
   }
 };
 
-exports.getAllProducts = async (req, res) => {
-  try {
-    const products = await productModel.find({});
-    const productIds = products.map(p => p._id);
+// exports.getAllProducts = async (req, res) => {
+//   try {
+//     const products = await productModel.find({});
+//     const productIds = products.map(p => p._id);
 
-    const images = await imageModel.find(
-      { imageId: { $in: productIds } },
-      { imageId: 1, ImageUrl: 1 }
-    );
+//     const images = await imageModel.find(
+//       { imageId: { $in: productIds } },
+//       { imageId: 1, ImageUrl: 1 }
+//     );
 
-    const response = {
-      products: products.map(prd => {
-        const productImage = images.find(img =>
-          img.imageId.toString() === prd._id.toString()
-        );
+//     const response = {
+//       products: products.map(prd => {
+//         const productImage = images.find(img =>
+//           img.imageId.toString() === prd._id.toString()
+//         );
 
-        return {
-          ...prd.toObject(),
-          imageUrl: productImage?.ImageUrl || null
-        };
-      })
-    };
+//         return {
+//           ...prd.toObject(),
+//           imageUrl: productImage?.ImageUrl || null
+//         };
+//       })
+//     };
 
-    return res.status(200).json(response);
-  } catch (err) {
-    return res.status(500).json({
-      message: "Internal Server Error",
-      error: err.message
-    });
-  }
-};
+//     return res.status(200).json(response);
+//   } catch (err) {
+//     return res.status(500).json({
+//       message: "Internal Server Error",
+//       error: err.message
+//     });
+//   }
+// };
 
 exports.changeProductImage = async (req, res) => {
   try {

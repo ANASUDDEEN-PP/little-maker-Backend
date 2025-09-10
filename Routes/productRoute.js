@@ -17,4 +17,4 @@ module.exports = router;
 
 
 
-// /product/get/flash/sale
+// /product/get/all
