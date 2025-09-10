@@ -36,6 +36,9 @@ const productSchema = new Schema({
     },
     trending : {
         type: String
+    },
+    rating: {
+        type: String
     }
 });
 

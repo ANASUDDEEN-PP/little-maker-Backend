@@ -10,5 +10,11 @@ router.post('/post/product', productController.postComments);
 router.get('/get/product/comments/:id', productController.getComments);
 router.get('/get/random/product', productController.getRandomSixProduct);
 router.put('/change/image/:id', productController.changeProductImage);
+router.get('/get/flash/sale', productController.getProductsOrderedByFlashSale)
 
 module.exports = router;
+
+
+
+
+// /product/get/flash/sale

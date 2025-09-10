@@ -44,7 +44,8 @@ exports.createProduct = async (req, res) => {
       Material: material || null,
       Size: size || null,
       flashSale: isFlashSale,
-      trending: isTrending
+      trending: isTrending,
+      rating: "0.0"
     };
 
     const product = await productModel.create(productData);
@@ -330,4 +331,38 @@ exports.changeProductImage = async (req, res) => {
     })
   }
 }
+
+exports.getProductsOrderedByFlashSale = async (req, res) => {
+  try {
+    const flashSale = await productModel.find({ flashSale: "true" }).lean();
+    const productImage = await imageModel.find({}).lean();
+
+    const flashProducts = flashSale.map((flsh) => {
+      // Pick the first matching image for this product
+      const image = productImage.find(
+        (img) => img.imageId === flsh._id.toString()
+      );
+
+      return {
+        id: flsh._id,
+        productName: flsh.ProductName,
+        collection: flsh.CollectionName,
+        normalPrice: flsh.NormalPrice,
+        offerPrice: flsh.OfferPrice,
+        rating: flsh.rating,
+        image: image ? image.ImageUrl : null,
+      };
+    });
+
+    return res.status(200).json({
+      flashProducts,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
 
