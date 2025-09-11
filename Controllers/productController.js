@@ -125,6 +125,19 @@ exports.getProductOrderedByCollection = async (req, res) => {
   }
 }
 
+exports.getAllProductToAdmin = async(req, res) => {
+  try{
+    const products = await productModel.find({}).lean();
+    return res.status(200).json({
+      products
+    })
+  } catch(err){
+    return res.status(404).json({
+      message : "Internal Server Error"
+    })
+  }
+}
+
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await productModel.aggregate([{ $sample: { size: 15 } }]);
@@ -140,7 +153,7 @@ exports.getAllProducts = async (req, res) => {
         normalPrice: prd.NormalPrice,
         offerPrice: prd.OfferPrice,
         rating: prd.rating,
-        image: image ? image.ImageUrl : null,
+        image: image ? image.ImageUrl : null
       };
     });
 
@@ -379,5 +392,32 @@ exports.getProductsOrderedByFlashSale = async (req, res) => {
     });
   }
 };
+
+exports.getTrendingProducts = async (req, res) => {
+  try {
+    const products = await productModel.find({ trending: true }).lean();
+    const images = await imageModel.find({}).lean();
+
+    const trendProducts = products.map(prd => {
+      const image = images.find(img => img.imageId === prd._id.toString());
+
+      return {
+        id: prd._id,
+        productName: prd.ProductName,
+        collection: prd.CollectionName,
+        normalPrice: prd.NormalPrice,
+        offerPrice: prd.OfferPrice,
+        rating: prd.rating,
+        image: image ? image.ImageUrl : null, // only one image
+      };
+    });
+
+    return res.status(200).json({ trendProducts });
+  } catch (err) {
+    console.error("Error fetching trending products:", err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 
