@@ -44,12 +44,12 @@ exports.addOrder = async (req, res) => {
     let genOrderId = '';
 
     if (orderCount === 0) {
-      genOrderId = `RAYA/${year}/ORD/0001`;
+      genOrderId = `TLM/${year}/ORD/0001`;
     } else {
       const lastOrder = await orderModel.findOne().sort({ _id: -1 });
       const lastOrdId = lastOrder.orderID?.split('/').pop();
       const nextOrdId = String(parseInt(lastOrdId) + 1).padStart(4, '0');
-      genOrderId = `RAYA/${year}/ORD/${nextOrdId}`;
+      genOrderId = `TLM/${year}/ORD/${nextOrdId}`;
     }
 
     const orderData = {
@@ -65,9 +65,11 @@ exports.addOrder = async (req, res) => {
       trackId: '',
       size,
       qty,
-      isComplete: false,
+      isComplete: true,
       cancellationReason: ''
     };
+
+    console.log(orderData)
 
     const order = await orderModel.create(orderData);
 
