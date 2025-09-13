@@ -65,17 +65,17 @@ exports.addOrder = async (req, res) => {
       trackId: '',
       size,
       qty,
-      isComplete: true,
+      isComplete: false,
       cancellationReason: ''
     };
 
     console.log(orderData)
 
-    const order = await orderModel.create(orderData);
+    await orderModel.create(orderData);
 
     return res.status(201).json({
       message: "Order placed successfully",
-      orderID: genOrderId
+      orderData
     });
 
   } catch (err) {

@@ -42,6 +42,12 @@ const orderSchema = new Schema({
     },
     cancellationReason : {
         type: String
+    },
+    paymentID: {
+        type: String
+    },
+    razorPayOrderId: {
+        type: String
     }
 });
 

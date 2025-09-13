@@ -1,5 +1,6 @@
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const orderModel= require("../Models/orderModel")
 
 // ✅ initialize Razorpay instance
 const razorpay = new Razorpay({
@@ -44,6 +45,18 @@ exports.verifyRazorpayPayment = async (req, res) => {
       razorpay_signature,
       orderId, // your own orderId from DB
     } = req.body;
+
+    console.log(req.body)
+
+    await orderModel.findOneAndUpdate(
+        { orderID: orderId },
+        { $set:{
+            isComplete: true,
+            paymentID: razorpay_payment_id,
+            razorPayOrderId: razorpay_payment_id
+        }},
+        {new : true}
+    )
 
     // Generate signature (HMAC SHA256)
     const sign = crypto
