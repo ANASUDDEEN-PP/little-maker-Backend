@@ -221,6 +221,7 @@ exports.orderEditByAdmin = async (req, res) => {
   try {
     const { id } = req.params;
     const { orderStatus } = req.body;
+    console.log(orderStatus)
 
     const isOrder = await orderModel.findById(id)
     if (!isOrder)
@@ -232,12 +233,21 @@ exports.orderEditByAdmin = async (req, res) => {
       { new: true }
     )
 
-    if(orderStatus === "Processing"){
-      quantityChanger("deduct", isOrder)
+    if(isOrder.orderStatus === "Confirmed"){
+      if(orderStatus === "Cancelled")
+        quantityChanger("add", isOrder)
+      if(orderStatus === "Processing")
+        quantityChanger("add", isOrder)
     }
 
-    if(orderStatus === "Cancelled"){
-      quantityChanger("add", isOrder)
+    if(isOrder.orderStatus === "Processing"){
+      if(orderStatus === "Confirmed")
+        quantityChanger("deduct", isOrder)
+    }
+
+    if(isOrder.orderStatus === "Cancelled"){
+      if(orderStatus === "Confirmed")
+        quantityChanger("deduct", isOrder)
     }
 
     if (req.body.orderStatus == "Confirmed") {
@@ -330,10 +340,13 @@ exports.orderDetailsById = async (req, res) => {
 exports.userCancelOrder = async(req, res) => {
   try{
     const { id } = req.params;
+    const { reason } = req.body
 
     // console.log(id, reason)
+
+    const isOrder = await orderModel.findById(id)
     
-    if(!await orderModel.findById(id))
+    if(!isOrder)
       return res.status(404).json({ message : "InvalidID" });
 
     await orderModel.findByIdAndUpdate(
@@ -344,6 +357,9 @@ exports.userCancelOrder = async(req, res) => {
       }},
       { new: true }
     )
+
+    quantityChanger("add", isOrder)
+
     
     return res.status(200).json({
       message : "Order Cancelled..."
@@ -355,4 +371,12 @@ exports.userCancelOrder = async(req, res) => {
   }
 }
 
-
+exports.invoiceData = async(req, res) => {
+  try{
+    console.log(req.params)
+  } catch(err){
+    return res.status(404).json({
+      message : "Internal Server Error"
+    })
+  }
+}

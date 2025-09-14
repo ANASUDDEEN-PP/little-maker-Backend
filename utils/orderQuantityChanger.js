@@ -1,6 +1,7 @@
 const productModel = require('../Models/productModel');
 
 const quantiyChanger = async (status, value) => {
+    // console.log("Product Quantity :", value)
     try {
         const product = await productModel.findById(value.productId);
 
@@ -10,6 +11,7 @@ const quantiyChanger = async (status, value) => {
         }
 
         let newQty = product.Quantity;
+        console.log("Initial Quantity :",newQty)
 
         if (status === "deduct") {
             newQty = parseInt(product.Quantity) - parseInt(value.qty);
@@ -19,6 +21,8 @@ const quantiyChanger = async (status, value) => {
         if (status === "add") {
             newQty = parseInt(product.Quantity) + parseInt(value.qty);
         }
+
+        console.log("Final Qty :", newQty)
 
         const updatedProduct = await productModel.findByIdAndUpdate(
             product._id,
