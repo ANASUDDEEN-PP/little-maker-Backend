@@ -3,13 +3,15 @@ const orderModel = require("../Models/orderModel");
 const gPayDetailsModel = require("../Models/gPayPaymentModel");
 const productModel = require("../Models/productModel");
 const userModel = require("../Models/userModel");
-const imageModel = require("../Models/ImageModel")
+const imageModel = require("../Models/ImageModel");
+const stickerModel = require("../Models/stickerModel");
 const dateFormat = require("../utils/dateFormat");
 const sendNotify = require("../utils/sendNotify");
 const quantityChanger = require("../utils/orderQuantityChanger")
 
 exports.addOrder = async (req, res) => {
   try {
+    console.log(req.body.items[0].customization.length)
     const {
       productId, customerId, paymentType,
       addressId, address, city, name, phone,
@@ -63,15 +65,26 @@ exports.addOrder = async (req, res) => {
       orderDate: dateFormat('NNMMYY|TT:TT'),
       deliveredDate: '',
       trackId: '',
-      size,
-      qty,
+      size: "",
+      qty: req.body.items[0].quantity || "",
       isComplete: false,
       cancellationReason: ''
     };
 
-    console.log(orderData)
+    // console.log(orderData)
 
-    await orderModel.create(orderData);
+    const orderPending = await orderModel.create(orderData);
+
+    const stickerData = {
+      id: orderPending._id || "",
+      name: "Cutomized Stickers" || "",
+      length: req.body.items[0].customization.length || "",
+      text: req.body.items[0].customization.text || "",
+      font: req.body.items[0].customization.font || "",
+      customizedAt: req.body.items[0].customization.customizedAt || ""
+    }
+
+    await stickerModel.create(stickerData);
 
     return res.status(201).json({
       message: "Order placed successfully",
