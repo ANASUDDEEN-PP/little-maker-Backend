@@ -11,7 +11,9 @@ const quantityChanger = require("../utils/orderQuantityChanger")
 
 exports.addOrder = async (req, res) => {
   try {
-    console.log(req.body.items[0].customization.length)
+    // Debug log
+    // console.log("Incoming items:", JSON.stringify(req.body.items, null, 2));
+
     const {
       productId, customerId, paymentType,
       addressId, address, city, name, phone,
@@ -21,6 +23,7 @@ exports.addOrder = async (req, res) => {
 
     let addressDoc = null;
 
+    // Save new address if needed
     if (!addressId || saveAddress === true) {
       const addressData = {
         UserId: customerId,
@@ -54,10 +57,11 @@ exports.addOrder = async (req, res) => {
       genOrderId = `TLM/${year}/ORD/${nextOrdId}`;
     }
 
+    // Order data
     const orderData = {
       orderID: genOrderId,
       customerId,
-      productId: productId.toString(),
+      productId: productId?.toString() || "",
       paymentType,
       addressId: finalAddressId,
       paymentStatus: 'pending',
@@ -65,26 +69,30 @@ exports.addOrder = async (req, res) => {
       orderDate: dateFormat('NNMMYY|TT:TT'),
       deliveredDate: '',
       trackId: '',
-      size: "",
-      qty: req.body.items[0].quantity || "",
+      size: size || "",
+      qty: req.body.items?.[0]?.quantity || qty || "",
       isComplete: false,
       cancellationReason: ''
     };
 
-    // console.log(orderData)
-
     const orderPending = await orderModel.create(orderData);
 
-    const stickerData = {
-      id: orderPending._id || "",
-      name: "Cutomized Stickers" || "",
-      length: req.body.items[0].customization.length || "",
-      text: req.body.items[0].customization.text || "",
-      font: req.body.items[0].customization.font || "",
-      customizedAt: req.body.items[0].customization.customizedAt || ""
-    }
+    // Handle customization safely
+    const customization = req.body.items?.[0]?.customization || {};
 
-    await stickerModel.create(stickerData);
+    const stickerData = {
+      ordId: orderPending._id || "",
+      name: "Customized Stickers",
+      length: customization.length || "",
+      text: customization.text || "",
+      font: customization.font || "",
+      customizedAt: customization.customizedAt || ""
+    };
+
+    // Only create sticker if there is customization
+    if (Object.keys(customization).length > 0) {
+      await stickerModel.create(stickerData);
+    }
 
     return res.status(201).json({
       message: "Order placed successfully",
@@ -92,12 +100,14 @@ exports.addOrder = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Order Error:", err);
     return res.status(500).json({
       message: "Internal Server Error",
+      error: err.message
     });
   }
 };
+
 
 exports.googlePayPaymentDetails = async (req, res) => {
   try {
@@ -390,6 +400,19 @@ exports.invoiceData = async(req, res) => {
   } catch(err){
     return res.status(404).json({
       message : "Internal Server Error"
+    })
+  }
+}
+
+exports.getStickerData = async(req, res) => {
+  try{
+    const { id } = req.params;
+    console.log(id)
+    const stk = await stickerModel.findOne({ ordId: id });
+    return res.status(200).json({stk})
+  } catch(err){
+    return res.status(404).json({
+      message: "Internal Server Error"
     })
   }
 }

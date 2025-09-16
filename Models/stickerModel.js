@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const stickerSchema = new Schema({
-  id: { type: String },
+  ordId: { type: String },
   name: { type: String },
   length: { type: String },
   text: { type: String },

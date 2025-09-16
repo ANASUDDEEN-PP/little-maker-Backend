@@ -10,7 +10,8 @@ router.get('/get/order/:id', orderController.getOrderById);
 router.put('/edit/:id', orderController.orderEditByAdmin);
 router.get('/user/get/:id', orderController.orderDetailsById);
 router.put('/user/cancel/:id', orderController.userCancelOrder);
-router.get('/get/invoice/data/:id', orderController.invoiceData)
+router.get('/get/invoice/data/:id', orderController.invoiceData);
+router.get('/get/stickers/data/:id', orderController.getStickerData);
 
 //Razorpay Integration
 router.post("/razorpay/create-order", razorPayController.createRazorpayOrder);
