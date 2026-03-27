@@ -12,4 +12,5 @@ router.get('/get/products/:id', brandController.getProductOrderedByBrand);
 router.get('/get/filter/brand', brandController.getFilteredBrand);
 router.get('/get/name/all', brandController.getBrandsToBanner);
 
+
 module.exports = router;

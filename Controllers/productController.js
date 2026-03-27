@@ -430,6 +430,7 @@ exports.getProductsOrderedByFlashSale = async (req, res) => {
   try {
     const flashSale = await productModel.find({ flashSale: "true" }).lean();
     const productImage = await imageModel.find({}).lean();
+    const brands = await brandModel.find({}).lean();
 
     const flashProducts = flashSale.map((flsh) => {
       // Pick the first matching image for this product
@@ -437,10 +438,14 @@ exports.getProductsOrderedByFlashSale = async (req, res) => {
         (img) => img.imageId === flsh._id.toString()
       );
 
+      const brand = brands.find(
+        (brd) => brd?._id.toString() === flsh?.brand.toString()
+      )
+
       return {
         id: flsh._id,
         productName: flsh.ProductName,
-        collection: flsh.CollectionName,
+        collection: brand.name || "",
         normalPrice: flsh.NormalPrice,
         offerPrice: flsh.OfferPrice,
         rating: flsh.rating,
@@ -463,14 +468,16 @@ exports.getTrendingProducts = async (req, res) => {
   try {
     const products = await productModel.find({ trending: true }).lean();
     const images = await imageModel.find({}).lean();
+    const brands = await brandModel.find({}).lean();
 
     const trendProducts = products.map((prd) => {
       const image = images.find((img) => img.imageId === prd._id.toString());
+      const brand = brands.find((brd) => brd?._id.toString() === prd?.brand.toString())
 
       return {
         id: prd._id,
         productName: prd.ProductName,
-        collection: prd.CollectionName,
+        collection: brand.name || "",
         normalPrice: prd.NormalPrice,
         offerPrice: prd.OfferPrice,
         rating: prd.rating,
@@ -544,6 +551,45 @@ exports.updateProduct = async (req, res) => {
     return res.status(200).json({
       message: "Product Updated Successfully",
     });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+
+exports.getAllBrandsProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    if(!id)
+      return res.status(404).json({message: "Invalid ID"});
+
+    const products = await productModel.find({ brand: id });
+    const images = await imageModel.find({}).lean();
+    const brandData = await brandModel.findById(id);
+
+    const allProducts = products.map((prd) => {
+      const image = images.find((img) => img.imageId === prd._id.toString());
+      
+      return {
+        id: prd._id,
+        productName: prd.ProductName,
+        collection: brandData.name,
+        normalPrice: prd.NormalPrice,
+        offerPrice: prd.OfferPrice,
+        rating: prd.rating,
+        image: image ? image.ImageUrl : null,
+        brand: brandData.name || "",
+        Material: prd.Material
+      };
+    });
+
+    return res.status(200).json({
+      allProducts,
+      collection: brandData.name || ""
+    })
   } catch (err) {
     return res.status(500).json({
       message: "Internal Server Error",

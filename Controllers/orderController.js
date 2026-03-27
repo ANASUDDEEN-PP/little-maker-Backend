@@ -100,9 +100,9 @@ exports.addOrder = async (req, res) => {
     //   customizedAt: customization.customizedAt || "",
     // };
 
-    // // Only create sticker if there is customization
+    // Only create sticker if there is customization
     // if (Object.keys(customization).length > 0) {
-    //   await stickerModel.create(stickerData);
+    await orderModel.create(orderData);
     // }
 
     return res.status(201).json({
@@ -660,6 +660,19 @@ exports.getStickerData = async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const stk = await stickerModel.findOne({ ordId: id });
+    return res.status(200).json({ stk });
+  } catch (err) {
+    return res.status(404).json({
+      message: "Internal Server Error",
+    });
+  }
+};
+
+exports.getStickerDataAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const stk = await stickerModel.findOne({ randomStickerId: id });
     return res.status(200).json({ stk });
   } catch (err) {
     return res.status(404).json({

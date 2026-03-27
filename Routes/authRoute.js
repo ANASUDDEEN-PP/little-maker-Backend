@@ -15,5 +15,8 @@ router.post('/resend/otp', AuthController.resendOTP);
 router.post('/forget/otp/request', AuthController.forgetOTPRequest)
 router.put('/change/password', AuthController.changePassword)
 router.get('/user/cache', AuthController.getUserCache)
+router.get('/get/user/cache/:id', AuthController.getIndividualUserCache)
+router.delete('/cache/data/delete/:id', AuthController.deleteCacheUserIndividual)
+
 
 module.exports = router;

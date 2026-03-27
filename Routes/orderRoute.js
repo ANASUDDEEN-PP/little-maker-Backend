@@ -14,6 +14,7 @@ router.get('/get/invoice/data/:id', orderController.invoiceData);
 router.get('/get/stickers/data/:id', orderController.getStickerData);
 router.get('/get/exist/sticker', orderController.getExistStickerData);
 router.post('/set/sticker/data', orderController.setStickerData);
+router.get('/get/stickers/admin/data/:id', orderController.getStickerDataAdmin)
 
 //Razorpay Integration
 router.post("/razorpay/create-order", razorPayController.createRazorpayOrder);

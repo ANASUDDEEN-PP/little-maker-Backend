@@ -374,3 +374,60 @@ exports.getUserCache = async(req, res) => {
     })
   }
 }
+
+exports.getIndividualUserCache = async(req, res) => {
+  try{
+    const { id } = req.params;
+    if(!id)
+      return res.status(404).json({ message: "Invalid ID"});
+
+    const cacheData = await userCacheModel.find({ userId: id });
+    const products = await productModel.find({}).lean();
+    const users = await userModel.find({}).lean();
+
+    const filterCacheData = cacheData.map((cDt) => {
+      const product = products.find((prd) => prd._id?.toString() === cDt.productId?.toString());
+      const user = users.find((usr) => usr._id?.toString() === cDt.userId?.toString());
+      
+      return({
+        _id: cDt._id || "",
+        userId: user.userId || "",
+        productId: product.ProductName || ""
+      })
+    })
+    return res.status(200).json({
+      filterCacheData
+    })
+
+  } catch(err){
+    return res.status(500).json({
+      err
+    })
+  }
+}
+
+exports.deleteCacheUserIndividual = async(req, res) => {
+  try{
+    const { id } = req.params;
+    if(!id)
+      return res.status(404).json({ message: "Invalid ID"});
+
+    const isCacheData = await userCacheModel.findById(id);
+    const isUserData = await userCacheModel.find({ userId: id });
+
+    if(isUserData){
+      await userCacheModel.deleteMany({ userId: id })
+    } else if(isCacheData) {
+      await userCacheModel.findByIdAndDelete(id);
+    }
+
+    return res.status(200).json({
+      message: "Cache deleted Successfully"
+    })
+
+  } catch(err){
+    return res.status(500).json({
+      err
+    })
+  }
+}

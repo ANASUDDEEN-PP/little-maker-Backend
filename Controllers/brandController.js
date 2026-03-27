@@ -170,3 +170,4 @@ exports.getBrandsToBanner = async (req, res) => {
     });
   }
 };
+

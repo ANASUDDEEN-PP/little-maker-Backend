@@ -14,7 +14,7 @@ router.get('/get/flash/sale', productController.getProductsOrderedByFlashSale)
 router.get('/get/trending/products', productController.getTrendingProducts);
 router.delete('/delete/:id', productController.deleteProducts);
 router.put('/update/:id', productController.updateProduct)
-
+router.get('/get/brand/product/:id', productController.getAllBrandsProduct)
 
 module.exports = router;
 
