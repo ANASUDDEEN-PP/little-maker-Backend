@@ -19,7 +19,7 @@ exports.userRegister = async (req, res) => {
     if (isLogin === true) {
       // --- LOGIN SECTION ---
     //   console.log("Login");
-      const adminArray = ["admin@kabsdigital.com", "admin@000"];
+      const adminArray = ["admin@thelittlemaker.com", "admin@000"];
       if (!email || !password) {
         return res
           .status(201)
@@ -30,7 +30,7 @@ exports.userRegister = async (req, res) => {
         return res.status(202).json({
           message: "ADMLGN",
           navigate: "/admin-dash",
-          Code: `ADMRAYA${Date.now()}`,
+          Code: `ADMTLM${Date.now()}`,
         });
       }
 
@@ -85,13 +85,13 @@ exports.userRegister = async (req, res) => {
       const userCount = await userModel.countDocuments();
 
       if (userCount === 0) {
-        genUserId = `RAYA/U001/${Date.now()}`;
+        genUserId = `TLM/U001/${Date.now()}`;
       } else {
         const lastUser = await userModel.findOne().sort({ _id: -1 });
         const lastId = lastUser.userId?.split("/")[1] || "U000";
         const numericPart = parseInt(lastId.substring(1)) + 1;
         const paddedId = numericPart.toString().padStart(3, "0");
-        genUserId = `RAYA/U${paddedId}/${Date.now()}`;
+        genUserId = `TLM/U${paddedId}/${Date.now()}`;
       }
 
       const userData = {

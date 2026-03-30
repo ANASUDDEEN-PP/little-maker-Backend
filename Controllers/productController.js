@@ -122,16 +122,17 @@ exports.getAllProductToAdmin = async (req, res) => {
         _id: prd._id,
         ProductId: prd.ProductId,
         ProductName: prd.ProductName,
-        collectionName: collectionName.CollectionName,
+        collectionName: collectionName ? collectionName.CollectionName : "N/A",
         Quantity: prd.Quantity,
-        brand: brandName.name || ""
+        brand: brandName ? (brandName.name || "N/A") : "N/A"
       };
     });
     return res.status(200).json({
       productList,
     });
   } catch (err) {
-    return res.status(404).json({
+    console.error("Error in getAllProductToAdmin:", err);
+    return res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -152,12 +153,12 @@ exports.getAllProducts = async (req, res) => {
       return {
         id: prd._id,
         productName: prd.ProductName,
-        collection: individualCollection.name,
+        collection: individualCollection ? individualCollection.name : "N/A",
         normalPrice: prd.NormalPrice,
         offerPrice: prd.OfferPrice,
         rating: prd.rating,
         image: image ? image.ImageUrl : null,
-        brand: individualCollection._id,
+        brand: individualCollection ? individualCollection._id : null,
         Material: prd.Material
       };
     });
@@ -189,7 +190,7 @@ exports.getProductById = async (req, res) => {
       ProductId: product.ProductId,
       ProductName: product.ProductName,
       Description: product.Description,
-      CollectionName: productCollection.CollectionName,
+      CollectionName: productCollection ? productCollection.CollectionName : "N/A",
       ActualPrice: product.ActualPrice,
       NormalPrice: product.NormalPrice,
       OfferPrice: product.OfferPrice,
@@ -197,14 +198,15 @@ exports.getProductById = async (req, res) => {
       Material: product.Material,
       Size: product.Size,
       rating: product.rating,
-      brand: productBrand.name
+      brand: productBrand ? productBrand.name : "N/A"
     };
     return res.status(200).json({
       productList,
       images,
     });
   } catch (err) {
-    return res.status(404).json({
+    console.error("Error in getProductById:", err);
+    return res.status(500).json({
       message: "Internal Server Error",
     });
   }
@@ -445,7 +447,7 @@ exports.getProductsOrderedByFlashSale = async (req, res) => {
       return {
         id: flsh._id,
         productName: flsh.ProductName,
-        collection: brand.name || "",
+        collection: brand ? (brand.name || "N/A") : "N/A",
         normalPrice: flsh.NormalPrice,
         offerPrice: flsh.OfferPrice,
         rating: flsh.rating,
@@ -477,7 +479,7 @@ exports.getTrendingProducts = async (req, res) => {
       return {
         id: prd._id,
         productName: prd.ProductName,
-        collection: brand.name || "",
+        collection: brand ? (brand.name || "N/A") : "N/A",
         normalPrice: prd.NormalPrice,
         offerPrice: prd.OfferPrice,
         rating: prd.rating,

@@ -15,7 +15,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://mobile-spare-ecommece-client.vercel.app",
+  "https://thelittlemaker.vercel.app",
 ];
 
 app.use(

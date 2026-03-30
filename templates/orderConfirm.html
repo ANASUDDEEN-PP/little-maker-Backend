@@ -1,115 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmed</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed - The Little Maker</title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
-    <table style="width: 100%; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-collapse: collapse;">
-        <!-- Header -->
-        <tr>
-            <td style="padding: 40px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); text-align: center;">
-                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">Order Confirmed!</h1>
-                <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Thank you for your purchase</p>
-            </td>
-        </tr>
+<body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; color: #1f2937; -webkit-font-smoothing: antialiased;">
+  
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width: 100%; background-color: #f3f4f6;">
+    <tr>
+      <td style="padding: 40px 20px;">
         
-        <!-- Success Icon -->
-        <tr>
-            <td style="padding: 30px; text-align: center; background-color: #f8f9fa;">
-                <div style="width: 80px; height: 80px; background-color: #28a745; border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; position: relative;">
-                    <span style="color: white; font-size: 40px; font-weight: bold;">✓</span>
-                </div>
-                <p style="margin: 20px 0 0 0; color: #28a745; font-size: 18px; font-weight: bold;">Payment Successful</p>
+        <!-- Main Email Card -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); overflow: hidden;">
+          
+          <!-- Header with Gradient and Logo -->
+          <tr>
+            <td style="padding: 45px 35px; text-align: center; background: linear-gradient(135deg, #fd294a 0%, #fb7185 100%); position: relative;">
+              <!-- Logo Container -->
+              <div style="width: 70px; height: 70px; background-color: #ffffff; border-radius: 18px; margin: 0 auto 24px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); position: relative; z-index: 1;">
+                <img src="https://thelittlemaker.com/assets/mailLogo.png" alt="The Little Maker Logo" style="width: 48px; height: auto;" />
+              </div>
+              
+              <h1 style="margin: 0 0 10px; font-size: 28px; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; position: relative; z-index: 1;">ORDER CONFIRMED</h1>
+              <p style="margin: 0; font-size: 16px; color: rgba(255, 255, 255, 0.9); font-weight: 500; position: relative; z-index: 1;">Thank you for your purchase!</p>
             </td>
-        </tr>
-        
-        <!-- Order Details -->
-        <tr>
-            <td style="padding: 0 30px;">
-                <div style="border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden;">
-                    <!-- Product Section -->
-                    <div style="padding: 25px; border-bottom: 1px solid #e9ecef;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr>
-                                <td style="width: 100px; vertical-align: top;">
-                                    <img src="{ORDER_IMAGE}" alt="Product Image" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #e9ecef;">
-                                </td>
-                                <td style="padding-left: 20px; vertical-align: top;">
-                                    <h3 style="margin: 0 0 10px 0; color: #333333; font-size: 18px; font-weight: bold;">{ORDER_NAME}</h3>
-                                    <p style="margin: 0; color: #666666; font-size: 14px;">Order ID: <span style="color: #333333; font-weight: bold;">#{ORDER_ID}</span></p>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <!-- Status Section -->
-                    <div style="padding: 25px; border-bottom: 1px solid #e9ecef;">
-                        <h4 style="margin: 0 0 15px 0; color: #333333; font-size: 16px; font-weight: bold;">Order Status</h4>
-                        <div style="background-color: #e8f5e8; border: 1px solid #28a745; border-radius: 6px; padding: 12px 16px; display: inline-block;">
-                            <span style="color: #28a745; font-weight: bold; font-size: 14px;">{ORDER_STATUS}</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Delivery Information -->
-                    <div style="padding: 25px;">
-                        <h4 style="margin: 0 0 15px 0; color: #333333; font-size: 16px; font-weight: bold;">Delivery Information</h4>
-                        <div style="background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 15px;">
-                            <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                                <span style="color: #856404; font-size: 16px; margin-right: 8px;">📦</span>
-                                <span style="color: #856404; font-weight: bold; font-size: 14px;">Expected Delivery:</span>
-                            </div>
-                            <div style="color: #856404; font-size: 16px; font-weight: bold; margin-left: 24px;">
-                                {EXPECTED_DELIVERY_DATE}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </tr>
+          
+          <!-- Success Status Icon -->
+          <tr>
+            <td style="padding: 40px 35px 20px; text-align: center;">
+              <div style="width: 60px; height: 60px; background-color: #f0fdf4; border-radius: 50%; margin: 0 auto 16px; display: inline-flex; align-items: center; justify-content: center; border: 2px solid #22c55e;">
+                <span style="color: #22c55e; font-size: 32px; font-weight: bold;">✓</span>
+              </div>
+              <p style="margin: 0; color: #22c55e; font-size: 18px; font-weight: 700;">Payment Successful</p>
             </td>
-        </tr>
-        
-        <!-- Next Steps -->
-        <tr>
-            <td style="padding: 30px;">
-                <div style="background-color: #f8f9fa; border-radius: 8px; padding: 25px; border-left: 4px solid #667eea;">
-                    <h4 style="margin: 0 0 15px 0; color: #333333; font-size: 16px; font-weight: bold;">What's Next?</h4>
-                    <ul style="margin: 0; padding-left: 20px; color: #666666; font-size: 14px; line-height: 1.6;">
-                        <li>We'll send you tracking information once your order ships</li>
-                        <li>You can track your order status in your account</li>
-                        <li>Contact us if you have any questions about your order</li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-        
-        <!-- Action Buttons -->
-        <tr>
-            <td style="padding: 0 30px 30px 30px; text-align: center;">
-                <table style="margin: 0 auto; border-collapse: collapse;">
+          </tr>
+          
+          <!-- Order Details Card -->
+          <tr>
+            <td style="padding: 20px 35px 40px;">
+              <div style="border: 1px solid #e5e7eb; border-radius: 16px; overflow: hidden; background-color: #fafafa;">
+                
+                <!-- Product Details Header -->
+                <div style="padding: 24px; border-bottom: 1px solid #e5e7eb; background-color: #ffffff;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
                     <tr>
-                        <td style="padding-right: 10px;">
-                            <a href="#" style="display: inline-block; padding: 12px 24px; background-color: #667eea; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">Track Order</a>
-                        </td>
-                        <td style="padding-left: 10px;">
-                            <a href="#" style="display: inline-block; padding: 12px 24px; background-color: #ffffff; color: #667eea; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; border: 1px solid #667eea;">View Order</a>
-                        </td>
+                      <td style="width: 100px; vertical-align: top;">
+                        <img src="{ORDER_IMAGE}" alt="Product" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; border: 1px solid #f3f4f6;" />
+                      </td>
+                      <td style="padding-left: 24px; vertical-align: top;">
+                        <h3 style="margin: 0 0 8px; color: #111827; font-size: 20px; font-weight: 700; line-height: 1.3;">{ORDER_NAME}</h3>
+                        <p style="margin: 0; color: #6b7280; font-size: 15px;">Order ID: <span style="color: #fd294a; font-weight: 700;">#{ORDER_ID}</span></p>
+                      </td>
                     </tr>
-                </table>
+                  </table>
+                </div>
+                
+                <!-- Status & Delivery Grid -->
+                <div style="padding: 24px;">
+                  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+                    <tr>
+                      <td style="padding-bottom: 24px;">
+                        <p style="margin: 0 0 10px; color: #4b5563; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Current Status</p>
+                        <div style="display: inline-block; padding: 8px 16px; background-color: #ecfdf5; border: 1px solid #10b981; border-radius: 8px; color: #047857; font-weight: 700; font-size: 14px;">
+                          {ORDER_STATUS}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p style="margin: 0 0 10px; color: #4b5563; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Expected Delivery</p>
+                        <div style="background-color: #fffbeb; border: 1px solid #f59e0b; border-radius: 12px; padding: 16px; display: flex; align-items: center;">
+                          <span style="font-size: 20px; margin-right: 12px;">🚚</span>
+                          <span style="color: #92400e; font-weight: 700; font-size: 16px;">{EXPECTED_DELIVERY_DATE}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                
+              </div>
             </td>
-        </tr>
+          </tr>
+          
+          <!-- Next Steps -->
+          <tr>
+            <td style="padding: 0 35px 40px;">
+              <div style="background-color: #f8fafc; border-radius: 16px; padding: 24px; border-left: 5px solid #fd294a;">
+                <h4 style="margin: 0 0 14px; color: #111827; font-size: 17px; font-weight: 700;">What's next?</h4>
+                <ul style="margin: 0; padding-left: 20px; color: #4b5563; font-size: 15px; line-height: 1.8;">
+                  <li>We'll notify you as soon as your creative order ships.</li>
+                  <li>Track your journey in the "My Orders" section.</li>
+                  <li>Need changes? Contact us within 2 hours.</li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          
+          <!-- Action Button -->
+          <tr>
+            <td style="padding: 0 35px 50px; text-align: center;">
+              <a href="#" style="display: inline-block; padding: 16px 36px; background-color: #fd294a; color: #ffffff; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 12px rgba(253, 41, 74, 0.3);">Track Your Order</a>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 40px 35px; background-color: #f9fafb; text-align: center; border-top: 1px solid #f3f4f6;">
+              <p style="margin: 0 0 12px; color: #111827; font-size: 16px; font-weight: 700;">Questions? We're here!</p>
+              <p style="margin: 0 0 24px; color: #6b7280; font-size: 14px; line-height: 1.6;">
+                <a href="mailto:support@thelittlemaker.com" style="color: #fd294a; text-decoration: none; font-weight: 600;">support@thelittlemaker.com</a><br>
+                <span>Call Us: +91 98463 83201</span>
+              </p>
+              
+              <div style="border-top: 1px solid #e5e7eb; margin: 24px 0 0; padding-top: 24px;">
+                <p style="margin: 0 0 8px; font-size: 12px; font-weight: 600; color: #111827;">THE LITTLE MAKER</p>
+                <p style="margin: 0; color: #9ca3af; font-size: 12px;">© 2026 The Little Maker. All rights reserved.</p>
+              </div>
+            </td>
+          </tr>
+          
+        </table>
         
-        <!-- Footer -->
-        <tr>
-            <td style="padding: 30px; background-color: #f8f9fa; text-align: center; border-top: 1px solid #e9ecef;">
-                <p style="margin: 0 0 10px 0; color: #666666; font-size: 14px;">Need help? Contact our support team</p>
-                <p style="margin: 0; color: #667eea; font-size: 14px;">
-                    <a href="mailto:support@company.com" style="color: #667eea; text-decoration: none;">support@company.com</a> | 
-                    <a href="#" style="color: #667eea; text-decoration: none;">1-800-123-4567</a>
-                </p>
-                <p style="margin: 20px 0 0 0; color: #999999; font-size: 12px;">© 2025 Your Company Name. All rights reserved.</p>
-            </td>
-        </tr>
-    </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
+/html>

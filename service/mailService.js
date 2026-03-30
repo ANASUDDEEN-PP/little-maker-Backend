@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport(
 const sendMail = (email, mailSubject, text) => {
     try{
         transporter.sendMail({
+        from: `"The Little Maker" <${process.env.EMAIL_USER}>`,
         to : email,
         subject : mailSubject,
         html : text
