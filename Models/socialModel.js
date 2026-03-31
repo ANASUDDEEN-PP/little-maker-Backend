@@ -1,0 +1,11 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const socialScheme = new Schema({
+  file: { type: String },
+  path: { type: String },
+  caption: { type: String },
+  onAir: { type: Boolean }
+});
+
+module.exports = mongoose.model('socialmedia', socialScheme);
