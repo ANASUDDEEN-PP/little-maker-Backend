@@ -6,5 +6,10 @@ const upload = require("../utils/multer");
 const socialController = require("../Controllers/socialController");
 
 router.post('/upload', upload.array("images"), socialController.socailMediaPostUpload);
+router.put('/update/:id', socialController.updateAir);
+router.get('/fetch/all', socialController.getAllSocial);
+router.delete('/delete/:id', socialController.deletePost);
+router.get('/fetch/onAir', socialController.fetchAirPost);
+
 
 module.exports = router;

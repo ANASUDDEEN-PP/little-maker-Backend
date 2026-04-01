@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const path = require("path");
 require('dotenv').config();
 
 // const dateFormat = require("./utils/dateFormat")
 // dateFormat('NNMMYY|TT:TT');
 
 const app = express();
+app.use(express.static(path.join(__dirname, "public")));
 
 // Increase payload limit
 app.use(express.json({ limit: '50mb' }));
