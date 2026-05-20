@@ -122,16 +122,17 @@ exports.getAllProductToAdmin = async (req, res) => {
         _id: prd._id,
         ProductId: prd.ProductId,
         ProductName: prd.ProductName,
-        collectionName: collectionName.CollectionName,
+        collectionName: collectionName?.CollectionName || prd.CollectionName || "Unknown Collection",
         Quantity: prd.Quantity,
-        brand: brandName.name || ""
+        brand: brandName?.name || ""
       };
     });
     return res.status(200).json({
       productList,
     });
   } catch (err) {
-    return res.status(404).json({
+    console.error("Error loading admin products:", err);
+    return res.status(500).json({
       message: "Internal Server Error",
     });
   }
