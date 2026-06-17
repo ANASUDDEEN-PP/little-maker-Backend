@@ -440,13 +440,13 @@ exports.getProductsOrderedByFlashSale = async (req, res) => {
       );
 
       const brand = brands.find(
-        (brd) => brd?._id.toString() === flsh?.brand.toString()
-      )
+        (brd) => brd?._id.toString() === flsh?.brand?.toString()
+      );
 
       return {
         id: flsh._id,
         productName: flsh.ProductName,
-        collection: brand.name || "",
+        collection: brand?.name || "",
         normalPrice: flsh.NormalPrice,
         offerPrice: flsh.OfferPrice,
         rating: flsh.rating,
@@ -467,18 +467,18 @@ exports.getProductsOrderedByFlashSale = async (req, res) => {
 
 exports.getTrendingProducts = async (req, res) => {
   try {
-    const products = await productModel.find({ trending: true }).lean();
+    const products = await productModel.find({ trending: { $in: [true, "true"] } }).lean();
     const images = await imageModel.find({}).lean();
     const brands = await brandModel.find({}).lean();
 
     const trendProducts = products.map((prd) => {
       const image = images.find((img) => img.imageId === prd._id.toString());
-      const brand = brands.find((brd) => brd?._id.toString() === prd?.brand.toString())
+      const brand = brands.find((brd) => brd?._id.toString() === prd?.brand?.toString());
 
       return {
         id: prd._id,
         productName: prd.ProductName,
-        collection: brand.name || "",
+        collection: brand?.name || "",
         normalPrice: prd.NormalPrice,
         offerPrice: prd.OfferPrice,
         rating: prd.rating,
