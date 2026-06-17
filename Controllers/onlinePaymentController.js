@@ -3,16 +3,24 @@ const crypto = require("crypto");
 const orderModel= require("../Models/orderModel")
 
 // ✅ initialize Razorpay instance
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID, // store in .env
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+let razorpay = null;
+if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+  razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID, // store in .env
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+} else {
+  console.warn("⚠️ Razorpay credentials (RAZORPAY_KEY_ID and/or RAZORPAY_KEY_SECRET) are missing. Razorpay payment integration is disabled.");
+}
 
 // ==============================
 // Create Razorpay order
 // ==============================
 exports.createRazorpayOrder = async (req, res) => {
   try {
+    if (!razorpay) {
+      return res.status(400).json({ error: "Razorpay is not configured on this server." });
+    }
     const { amount, currency, receipt } = req.body;
 
     if (!amount || !currency || !receipt) {
@@ -47,6 +55,10 @@ exports.verifyRazorpayPayment = async (req, res) => {
     } = req.body;
 
     console.log(req.body)
+
+    if (!process.env.RAZORPAY_KEY_SECRET) {
+      return res.status(400).json({ success: false, message: "Razorpay secret key is not configured on this server." });
+    }
 
     await orderModel.findOneAndUpdate(
         { orderID: orderId },
